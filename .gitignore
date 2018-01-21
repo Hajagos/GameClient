@@ -26,3 +26,8 @@ hs_err_pid*
 
 #IDEA
 .idea/workspace.xml
+.idea/modules.xml
+.idea/vcs.xml
+
+#iml
+GameClient.iml
