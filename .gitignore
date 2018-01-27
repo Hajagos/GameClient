@@ -29,6 +29,8 @@ hs_err_pid*
 .idea/modules.xml
 .idea/vcs.xml
 .idea/libraries/native.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/uiDesigner.xml
 
 #iml
 GameClient.iml
