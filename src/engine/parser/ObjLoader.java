@@ -18,7 +18,7 @@ public class ObjLoader {
 	public static RawModel loadObjModel(String fileName, Loader loader) {
 		FileReader fr = null;
 		try {
-			fr = new FileReader(new File("res/" + fileName + ".obj"));
+			fr = new FileReader(new File("res/obj/" + fileName + ".obj"));
 		} catch (FileNotFoundException e) {
 			System.err.println("Couldn't load file!");
 			e.printStackTrace();
@@ -60,6 +60,12 @@ public class ObjLoader {
 					continue;
 				}
 				String[] currentLine = line.split(" ");
+
+				//Debug purpouse ...
+				for (int i = 0; i < currentLine.length; ++i) {
+					System.out.println("Current Line : " + currentLine[i].toString());
+				}
+
 				String[] vertex1 = currentLine[1].split("/");
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
@@ -67,6 +73,7 @@ public class ObjLoader {
 				processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
 				processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
 				processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
+
 				line = reader.readLine();
 			}
 			reader.close();
@@ -92,13 +99,26 @@ public class ObjLoader {
 	private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures,
 	                                  List<Vector3f> normals, float[] textureArray, float[] normalsArray) {
 		int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
+		System.out.println(currentVertexPointer);
 		indices.add(currentVertexPointer);
-		Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1]) - 1);
-		textureArray[currentVertexPointer * 2] = currentTex.x;
-		textureArray[currentVertexPointer * 2 + 1] = 1 - currentTex.y;
-		Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2]) - 1);
-		normalsArray[currentVertexPointer * 3] = currentNorm.x;
-		normalsArray[currentVertexPointer * 3 + 1] = currentNorm.y;
-		normalsArray[currentVertexPointer * 3 + 2] = currentNorm.z;
+		System.out.println("vertexData[1]: " + vertexData[1]);
+
+		if (!vertexData[1].isEmpty()) {
+			Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1]) - 1);
+			textureArray[currentVertexPointer * 2] = currentTex.x;
+			textureArray[currentVertexPointer * 2 + 1] = 1 - currentTex.y;
+		} else {
+			System.out.println("A");
+		}
+
+		System.out.println("vertexData[2]: " + vertexData[2]);
+		if (!vertexData[2].isEmpty()) {
+			Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2]) - 1);
+			normalsArray[currentVertexPointer * 3] = currentNorm.x;
+			normalsArray[currentVertexPointer * 3 + 1] = currentNorm.y;
+			normalsArray[currentVertexPointer * 3 + 2] = currentNorm.z;
+		} else {
+			System.out.println("B");
+		}
 	}
 }

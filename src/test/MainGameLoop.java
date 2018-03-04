@@ -1,6 +1,7 @@
 package test;
 
 import engine.DisplayManager;
+import engine.parser.ObjLoader;
 import entity.Camera;
 import entity.Entity;
 import model.TexturedModel;
@@ -118,9 +119,11 @@ public class MainGameLoop {
 
 		};
 
-		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+		ObjLoader objLoader = new ObjLoader();
 
-		TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("image")));
+		RawModel model = objLoader.loadObjModel("Porsche_911_GT2", loader);
+
+		TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("0000")));
 
 		Entity entity = new Entity(staticModel, new Vector3f(0,0,-5),0,0,0,1);
 
@@ -134,7 +137,7 @@ public class MainGameLoop {
 			modifyVertices(vertices);
 			renderer.prepare();
 
-			entity.increaseRotation(1, 1, 0);
+			entity.increaseRotation(0, 1, 0);
 			camera.move();
 			renderer.prepare();
 			shader.start();
