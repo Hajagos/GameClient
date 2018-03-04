@@ -1,4 +1,4 @@
-package engine;
+package model;
 
 /**
  * Represents a loaded model. It contains the ID of the VAO that contains the
