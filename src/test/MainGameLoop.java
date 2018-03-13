@@ -1,7 +1,7 @@
 package test;
 
 import engine.DisplayManager;
-import engine.parser.ObjLoader;
+import parser.ObjLoader;
 import entity.Camera;
 import entity.Entity;
 import model.TexturedModel;
