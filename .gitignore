@@ -31,6 +31,16 @@ hs_err_pid*
 .idea/libraries/native.xml
 .idea/codeStyles/codeStyleConfig.xml
 .idea/uiDesigner.xml
+.idea/libraries/jars.xml
+.idea/misc.xml
+*misc.xml
 
 #iml
 GameClient.iml
+
+#no images and obj files pls
+*.obj
+*.png
+*.jpeg
+*.jpg
+*.bmp
