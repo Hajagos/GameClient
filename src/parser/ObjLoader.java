@@ -1,4 +1,4 @@
-package engine.parser;
+package parser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,28 +54,42 @@ public class ObjLoader {
 					break;
 				}
 			}
+
+			//To help figuring out what's going on.
+			int faceCount = 0;
+			int groupCount = 0;
+
 			while (line != null) {
-				if (!line.startsWith("f ")) {
+				if (line.startsWith("f ")) {
+					faceCount++;
+					String[] currentLine = line.split(" ");
+
+					//Debugging purpose ...
+//				for (int i = 0; i < currentLine.length; ++i) {
+//					System.out.println("Current Line : " + currentLine[i].toString());
+//				}
+
+					String[] vertex1 = currentLine[1].split("/");
+					String[] vertex2 = currentLine[2].split("/");
+					String[] vertex3 = currentLine[3].split("/");
+
+					processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
+					processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
+					processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
+				} else if (line.startsWith("g ")) {
+					//TODO: Maybe it would work, if the entity would able to store each group and each group could use other texture ....
+					System.out.println("g...");
+					groupCount++;
+				} else {
 					line = reader.readLine();
 					continue;
 				}
-				String[] currentLine = line.split(" ");
-
-				//Debug purpouse ...
-				for (int i = 0; i < currentLine.length; ++i) {
-					System.out.println("Current Line : " + currentLine[i].toString());
-				}
-
-				String[] vertex1 = currentLine[1].split("/");
-				String[] vertex2 = currentLine[2].split("/");
-				String[] vertex3 = currentLine[3].split("/");
-
-				processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
-				processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
-				processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
-
 				line = reader.readLine();
 			}
+
+			System.out.println("group count: " + groupCount);
+			System.out.println("face count: " + faceCount);
+
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,6 +107,11 @@ public class ObjLoader {
 		for (int i = 0; i < indices.size(); i++) {
 			indicesArray[i] = indices.get(i);
 		}
+
+		System.out.println("V: " + verticesArray.length);
+		System.out.println("T: " + textureArray.length);
+		System.out.println("I: " + indicesArray.length);
+
 		return loader.loadToVAO(verticesArray, textureArray, indicesArray);
 	}
 
